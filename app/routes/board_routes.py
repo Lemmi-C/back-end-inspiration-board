@@ -7,7 +7,15 @@ boards_bp = Blueprint("boards", __name__, url_prefix="/boards")
 
 @boards_bp.route("", methods=['GET'])
 def handle_boards():
-    pass
+    boards_response = []
+    boards = Board.query.all()
+    for board in boards:
+        boards_response.append({
+            "board_id": board.board_id,
+            "title": board.title,
+            "owner": board.owner
+        })
+    return jsonify(boards_response)
 
 @boards_bp.route("", methods=['POST'])
 def create_board():
@@ -26,3 +34,5 @@ def create_board():
         "title": new_board.title,
         "owner": new_board.owner
     }, 201
+
+    
