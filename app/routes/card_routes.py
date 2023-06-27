@@ -24,3 +24,17 @@ def get_all_cards():
 def get_one_card(card_id):
     card = validate_object(Card,card_id)
     return make_response(jsonify({"card":card.to_dict()}))
+
+@cards_bp.route("",methods=["POST"])
+def create_one_card():
+    request_body = request.get_json()
+    try:
+        new_card = Card.from_dict(request_body)
+    except:
+        abort(make_response({"details": "Invalid data"},400))
+
+    db.session.add(new_card)
+    db.session.commit
+
+    reponse_body = {"card":new_card.to_dict()}
+    return jsonify(reponse_body,201)

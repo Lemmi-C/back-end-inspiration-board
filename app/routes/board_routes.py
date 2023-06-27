@@ -7,7 +7,7 @@ from app.routes.utility_file import validate_object
 boards_bp = Blueprint("boards", __name__, url_prefix="/boards")
 
 @boards_bp.route("", methods=['GET'])
-def handle_boards():
+def handle_all_boards():
     boards_response = []
     boards = Board.query.all()
     for board in boards:
@@ -16,12 +16,16 @@ def handle_boards():
             "title": board.title,
             "owner": board.owner
         })
-    return jsonify(boards_response)
+    return jsonify(boards_response), 200 
 
-@boards_bp.route("/board_id", methods=['GET'])
+@boards_bp.route("/<board_id>", methods=['GET'])
 def handle_one_board(board_id):
-    pass
-
+    board = validate_object(Board, board_id)
+    return {
+        "id": board.board_id,
+        "title": board.title,
+        "owner": board.owner
+    }, 200
 
 @boards_bp.route("", methods=['POST'])
 def create_board():
