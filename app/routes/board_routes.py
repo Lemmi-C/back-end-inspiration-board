@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response
 from app import db
 from app.models.board import Board
+from app.routes.utility_file import validate_object
 
 # example_bp = Blueprint('example_bp', __name__)
 boards_bp = Blueprint("boards", __name__, url_prefix="/boards")
@@ -16,6 +17,11 @@ def handle_boards():
             "owner": board.owner
         })
     return jsonify(boards_response)
+
+@boards_bp.route("/board_id", methods=['GET'])
+def handle_one_board(board_id):
+    pass
+
 
 @boards_bp.route("", methods=['POST'])
 def create_board():
