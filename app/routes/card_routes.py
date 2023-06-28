@@ -5,6 +5,7 @@ from app.routes.utility_file import validate_object
 
 cards_bp = Blueprint("cards", __name__, url_prefix="/cards")
 
+#tested and works
 @cards_bp.route("", methods=["GET"])
 def get_all_cards():
     card = request.args.get("card_id")
@@ -20,11 +21,16 @@ def get_all_cards():
         card_response.append(card.to_dict())
     return jsonify(card_response)
 
+#tested and works
 @cards_bp.route("/<card_id>", methods=["GET"])
 def get_one_card(card_id):
+    #test if board_id returns with card
+    #board = validate_object(Card,board_id)
     card = validate_object(Card,card_id)
-    return make_response(jsonify({"card":card.to_dict()}))
 
+    return jsonify({"card":card.to_dict()})
+
+#tested and works
 @cards_bp.route("",methods=["POST"])
 def create_one_card():
     request_body = request.get_json()
@@ -34,7 +40,19 @@ def create_one_card():
         abort(make_response({"details": "Invalid data"},400))
 
     db.session.add(new_card)
-    db.session.commit
+    db.session.commit()
 
-    reponse_body = {"card":new_card.to_dict()}
-    return jsonify(reponse_body,201)
+    response_body = {"card":new_card.to_dict()}
+
+    return jsonify(response_body),201
+
+#tested and works
+@cards_bp.route("/<card_id>",methods=["DELETE"])
+def delete_one_card(card_id):
+
+    card = validate_object(Card,card_id)
+    db.session.delete(card)
+    db.session.commit()
+
+    return jsonify({"details":f"Card {card_id} successfully deleted"}), 200
+    
