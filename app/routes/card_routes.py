@@ -30,7 +30,8 @@ def get_one_card(card_id):
 
     return jsonify({"card":card.to_dict()})
 
-#tested and works
+#test
+#possible exception handling reference except e
 @cards_bp.route("",methods=["POST"])
 def create_one_card():
     request_body = request.get_json()
