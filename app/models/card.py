@@ -6,12 +6,16 @@ class Card(db.Model):
     likes_count = db.Column(db.Integer)
 
 
-def to_dict():
+def to_dict(self):
     card_as_dict = {}
     card_as_dict["id"] = self.card_id
     card_as_dict["message"] = self.message
     card_as_dict["likes_count"] = self.likes_count
     return card_as_dict
 
-def from_dict():
-    pass
+@classmethod
+def from_dict(cls, card_data):
+    new_card = Card(card_id=card_data["card_id"],
+                    message=card_data["message"])
+    return new_card
+    
