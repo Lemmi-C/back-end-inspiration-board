@@ -32,7 +32,7 @@ def create_board():
     request_body = request.get_json()
 
     if 'title' not in request_body or 'owner' not in request_body:
-        return {"error": "Must provide title and owner"}
+        return {"error": "Must provide title and owner"}, 400
 
     new_board = Board(title=request_body['title'], owner=request_body['owner'])
 
@@ -45,4 +45,18 @@ def create_board():
         "owner": new_board.owner
     }, 201
 
+#Path to retrieve all cards from selected board 
+@boards_bp.route("/<board_id>/cards", methods=['GET'])
+def get_all_card_of_one_board(board_id):
+    board = validate_object(Board, board_id)
+
+    cards_response = []
+    for card in board.cards:
+        cards_response.append({
+            "id": card.card_id,
+            "message": card.message,
+            "likes_count": card.likes_count,
+            "board_id": card.board_id
+        })
     
+    return jsonify(cards_response), 200

@@ -20,6 +20,7 @@ class Card(db.Model):
 
     @classmethod
     def from_dict(cls, card_data):
+        # message = str(message)
         message = card_data["message"]
         if len(message) > 40:
             raise Exception("Value too long")
