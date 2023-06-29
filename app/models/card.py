@@ -20,7 +20,9 @@ class Card(db.Model):
 
     @classmethod
     def from_dict(cls, card_data):
-        # message = str(message)
+        if not isinstance(card_data["message"],str):
+            raise ValueError("Invalid input")
+        
         message = card_data["message"]
         if len(message) > 40:
             raise Exception("Value too long")

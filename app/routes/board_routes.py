@@ -33,6 +33,9 @@ def create_board():
 
     if 'title' not in request_body or 'owner' not in request_body:
         return {"error": "Must provide title and owner"}, 400
+    
+    if not isinstance(request_body["title"],str) or not isinstance(request_body["owner"],str):
+            return {"error": "Invalid input. Must provide text not numbers"}, 400
 
     new_board = Board(title=request_body['title'], owner=request_body['owner'])
 
@@ -60,3 +63,13 @@ def get_all_card_of_one_board(board_id):
         })
     
     return jsonify(cards_response), 200
+
+@boards_bp.route("/<board_id>",methods=["DELETE"])
+def delete_one_card(board_id):
+
+    board = validate_object(Board,board_id)
+    db.session.delete(board)
+    db.session.commit()
+
+    return jsonify({"details":f"Board {board_id} successfully deleted"}), 200
+    
