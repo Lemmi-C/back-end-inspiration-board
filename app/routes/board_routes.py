@@ -22,7 +22,7 @@ def handle_all_boards():
 def handle_one_board(board_id):
     board = validate_object(Board, board_id)
     return {
-        "id": board.board_id,
+        "board_id": board.board_id,
         "title": board.title,
         "owner": board.owner
     }, 200
@@ -53,7 +53,7 @@ def get_all_card_of_one_board(board_id):
     cards_response = []
     for card in board.cards:
         cards_response.append({
-            "id": card.card_id,
+            "card_id": card.card_id,
             "message": card.message,
             "likes_count": card.likes_count,
             "board_id": card.board_id
