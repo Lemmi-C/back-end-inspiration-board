@@ -21,7 +21,6 @@ class Board(db.Model):
     @classmethod
     def from_dict(cls, board_data):
         new_board = Board(title=board_data["title"],
-                        board_id=board_data["board_id"])
+                        owner=board_data["owner"])
         return new_board
         
-        #no missing title or owner
