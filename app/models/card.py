@@ -3,7 +3,7 @@ from app import db
 class Card(db.Model):
     card_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     message = db.Column(db.String(40))
-    likes_count = db.Column(db.Integer)
+    likes_count = db.Column(db.Integer, default=0)
     
     #board_id is column in Card table, foreign key is column in Board table
     board_id = db.Column(db.Integer, db.ForeignKey('board.board_id'))
